@@ -2,6 +2,8 @@
 
 This project is a simple implementation of a Toast API using React's Context API, reducer, custom hooks, and styled with Tailwind CSS. It provides an easy-to-use interface for displaying toast messages in a React application.
 
+![Image of the project](image.png)
+
 ## Table of Contents
 
 - [Installation](#installation)

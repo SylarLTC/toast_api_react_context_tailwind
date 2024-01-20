@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import {
   IconAlertCircleFilled,
   IconCircleCheckFilled,
@@ -32,13 +32,14 @@ const toastTypes = {
 };
 
 export const Toast = ({ message, type, id }) => {
-  const { icon, iconCLass, toastClass, progressBarClass } = toastTypes[type];
+  const { icon, iconCLass, progressBarClass } = toastTypes[type];
   const toast = useToast();
   const timerID = useRef(null);
 
-  const handleDismiss = () => {
+  const handleDismiss = useCallback(() => {
     toast.remove(id);
-  };
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     timerID.current = setTimeout(() => {
@@ -48,11 +49,11 @@ export const Toast = ({ message, type, id }) => {
     return () => {
       clearTimeout(timerID.current);
     };
-  }, []);
+  }, [handleDismiss]);
 
   return (
     <div
-      className={`relative flex w-[320px] items-center overflow-hidden rounded-[8px] bg-[#ffffff] p-[16px] shadow-[0_4px_4px_rgba(0,0,0,0.1)] ${toastClass}`}
+      className={`relative flex w-[320px] items-center overflow-hidden rounded-[8px] bg-[#ffffff] p-[16px] shadow-[0_4px_4px_rgba(0,0,0,0.1)]`}
     >
       <span className={iconCLass}>{icon}</span>
       <p className="ml-[12px] text-[14px] font-medium text-[#151626]">
@@ -67,7 +68,7 @@ export const Toast = ({ message, type, id }) => {
 
       {/* Toast Progress Bar */}
       <div className="absolute bottom-0 left-0 h-[4px] w-full bg-[rgba(0,0,0,0.1)]">
-        <div className={`animate-progressBar h-full ${progressBarClass}`}></div>
+        <div className={`h-full animate-progressBar ${progressBarClass}`}></div>
       </div>
     </div>
   );
